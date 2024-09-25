@@ -204,18 +204,19 @@ curl -X POST http://localhost:3000/api/simulate-chat-reminder \
 }'
 ```
 
----
+</br>
+***
 
 ### Cách Thức Hoạt Động Của Hệ Thống
 #### 1. WebSocket Gateway:
--- Khi một khách hàng kết nối qua WebSocket, ChatGateway xử lý kết nối và gửi thông điệp chào mừng.
--- Khi một khách hàng ngắt kết nối, nó gửi thông điệp tạm biệt.
--- Các sự kiện WebSocket như message được xử lý và sau đó được phát đến Redis để các dịch vụ khác tiêu thụ.
+ Khi một khách hàng kết nối qua WebSocket, ChatGateway xử lý kết nối và gửi thông điệp chào mừng.
+- Khi một khách hàng ngắt kết nối, nó gửi thông điệp tạm biệt.
+- Các sự kiện WebSocket như message được xử lý và sau đó được phát đến Redis để các dịch vụ khác tiêu thụ.
+
 #### 2. Đăng Ký Redis:
--- ChatGateway đăng ký nhiều kênh Redis để nhận các cập nhật theo thời gian thực như trạng thái online, ngắt kết nối và thông điệp từ các dịch vụ bên ngoài như Facebook, Zalo và FChat.
--- Khi nhận được một thông điệp từ Redis, gateway phát thông điệp đến tất cả các khách hàng WebSocket đang kết nối.
+- ChatGateway đăng ký nhiều kênh Redis để nhận các cập nhật theo thời gian thực như trạng thái online, ngắt kết nối và thông điệp từ các dịch vụ bên ngoài như Facebook, Zalo và FChat.
+- Khi nhận được một thông điệp từ Redis, gateway phát thông điệp đến tất cả các khách hàng WebSocket đang kết nối.
+
 #### 3. Tích Hợp RabbitMQ:
--- Mặc dù microservice chủ yếu đăng ký các kênh Redis, RabbitMQ được sử dụng cho việc phân phối sự kiện nội bộ (ví dụ: sự kiện ngắt kết nối khách hàng).
--- RabbitmqService xử lý việc phát thông điệp đến các exchange RabbitMQ khi được kích hoạt bởi các sự kiện nhất định như ngắt kết nối của khách hàng.
-
-
+- Mặc dù microservice chủ yếu đăng ký các kênh Redis, RabbitMQ được sử dụng cho việc phân phối sự kiện nội bộ (ví dụ: sự kiện ngắt kết nối khách hàng).
+- RabbitmqService xử lý việc phát thông điệp đến các exchange RabbitMQ khi được kích hoạt bởi các sự kiện nhất định như ngắt kết nối của khách hàng.
